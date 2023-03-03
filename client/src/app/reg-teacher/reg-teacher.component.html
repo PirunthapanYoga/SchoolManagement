@@ -1,0 +1,89 @@
+<div class="container" style="margin: 35px 35px 35px 35px;">
+    <div class="container" style="margin: 35px 35px 35px 35px;">
+        <form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
+            <h2 style="font-weight: bold; text-align: center;"> Teacher Registration</h2>
+            <hr>
+            
+            <div class="row">
+                <div class="col-2">
+                    <div style="margin-top: 10px;">
+                        First Name *
+                    </div>
+                </div>
+                <div class="col-7">
+                    <div class="mb-3">
+                        <input  type="text" 
+                            class="form-control" 
+                            minlength="2"
+                            name="firstName"
+                            [(ngModel)]="teacher.firstName" 
+                            placeholder="First Name">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-2">
+                    <div style="margin-top: 10px;">
+                        Last Name *
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="mb-3">
+                        <input  type="text" 
+                                class="form-control" 
+                                minlength="2"
+                                name="lastName"
+                                [(ngModel)]="teacher.lastName"
+                                placeholder="Last Name">
+                    </div>
+                </div>
+            </div>
+        
+            <div class="row">
+                <div class="col-2">
+                    <div style="margin-top: 10px;">
+                        Contact Number *
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="mb-3">
+                        <input  type="text" 
+                                minlength="9"
+                                maxlength="13"
+                                class="form-control" 
+                                name="ontactNumber"
+                                [(ngModel)]="teacher.contactNumber"
+                                placeholder="Contact Number">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-2">
+                    <div style="margin-top: 10px;">
+                        Email *
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="mb-3">
+                        <input  type="text"
+                                email="true"
+                                class="form-control" 
+                                name="email"
+                                [(ngModel)]="teacher.email" 
+                                placeholder="Email">
+                    </div>
+                </div>
+            </div>
+        
+            <div class="text-center" style="margin: 25px 25px 25px 25px;">
+                <button class="btn btn-success me2" type="Submit" style="margin-right: 10px;"> Register Student </button>
+                <button class="btn btn-secondary" routerLink="/" style="margin-left: 10px;"> Cancel </button>
+            </div>
+            
+            <p style="color: red;">Fields with * are Required</p>
+            <div></div>
+        </form>
+    </div>
+</div>

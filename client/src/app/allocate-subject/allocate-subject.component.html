@@ -1,0 +1,134 @@
+<div class="container-fluid" style="border: 3px solid black; border-radius: 10px;" *ngIf="isLoaded">
+
+    <div class="container-fluid" style="margin:  35px 35px 35px 35px;">
+        <div style="text-align: lest; ">
+            <h2 style="font-weight: bold;">Teacher Details</h2>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin:  35px 35px 35px 35px;">
+        <div class="col-10">
+            <div class="row">
+
+                <div class="col-2">
+                    <label for="Student" style="font-size: medium; margin-top: 30px;">Full Name</label>
+                </div>
+    
+                <div class="col-6">
+                    <div class="row" style="margin-top: 10px;">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Teacher </mat-label>
+                            <mat-select [(value)]="selectedTeacher">
+                                <mat-option *ngFor="let teacher of teachers" [value]="teacher"
+                                    (onSelectionChange)="setTeacher(teacher)">
+                                    {{teacher.firstName + " " + teacher.lastName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid" style="border: 3px solid black; border-radius: 10px; margin-top: 35px;" *ngIf="isLoaded">
+
+    <div class="container-fluid" style="margin:  35px 35px 35px 35px;">
+        <div style="text-align: lest; ">
+            <h2 style="font-weight: bold;">Allocate Subject</h2>
+        </div>
+    </div>
+
+    <div class="container-fluid" style="margin:  35px 35px 35px 35px;">
+
+        <div class="row" >
+            <div class="col-10">
+                <div class="row">
+
+                    <div class="col-2">
+                        <label for="Student" style="font-size: medium; margin-top: 40px;">Subject </label>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="row" style="margin-top: 20px;">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Select Subject </mat-label>
+                                <mat-select [(value)]="selectedSubject">
+                                    <mat-option *ngFor="let subject of subjects" [value]="subject"
+                                        (onSelectionChange)="setSubject(subject)">
+                                        {{subject.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-1"></div>
+        
+                    <div class="col-2">
+                        <div class="container" dis style="margin-top: 30px;" *ngIf="selectedTeacher && selectedSubject">
+                            <div class="btn me-2 " style="background-color:dimgrey;" (click)="validate()">Allocate</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        
+        <div *ngIf="selectedTeacher" >
+            <div class="row">
+                <div class="col-10">
+                    <div class="row" style="border: 1px solid black;">
+
+                        <div class="col-9" style="border-right: 1px solid black;">
+                            <label for="classRoom" style="font-weight: bold; margin:15px 0px 15px 0px">Subjects</label>
+                        </div>
+
+                        <div class="col-3" style="text-align: center;">
+                            <label for="classRoom" style="font-weight: bold; margin:15px 0px 15px 0px">Action</label>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="selectedTeacher">
+
+            <div class="row" *ngFor="let subject of selectedTeacher.subjects">
+                <div class="col-10">
+                    <div class="row" style="border: 1px solid black;">
+
+                        <div class="col-9" style="border-right: 1px solid black;">
+                            <div style="margin:15px 0px 15px 15px">
+                                {{subject.name}}
+                            </div>
+                        </div>
+
+                        <div class="col-3" style="text-align: center;">
+                            <div class="btn me-2" style="background-color:dimgrey; margin:5px 0px 5px 0px"(click) ="deleteSubjects(subject.id)">Deallocate
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="container-fluid" style="color: red; margin: 35px;" *ngIf="isLoaded && !selectedTeacher">
+    <label for="message">Select Teacher</label>
+</div>
+
+<div class="container-fluid" style="color: red; margin: 35px;" *ngIf="isLoaded && selectedTeacher && !selectedSubject">
+    <label for="message">Select Subject</label>
+</div>
+
+<div class="container-fluid" style="color: red; margin: 35px;" *ngIf="isLoaded && message">
+    <label for="message">{{message}}</label>
+</div>

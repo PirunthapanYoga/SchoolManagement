@@ -1,0 +1,57 @@
+<div class="container" style="margin: 35px 35px 35px 35px;">
+    <div class="container" style="margin: 35px 35px 35px 35px;">
+        <form #registerForm="ngForm" (ngSubmit)="register()" autocomplete="off">
+            <h2 style="font-weight: bold; text-align: center;"> Class Room Registration</h2>
+            <hr>
+            
+            <div class="row">
+                <div class="col-2">
+                    <div style="margin-top: 10px;">
+                        Class Grade *
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="row">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Grade</mat-label>
+                            <mat-select [(value)]="grade">
+                                <mat-option *ngFor="let grade of grades" [value]="grade" (onSelectionChange)="setGrade(grade)">
+                                    {{grade}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-2">
+                    <div style="margin-top: 10px;">
+                        Class Divition *
+                    </div>
+                </div>
+                <div class="col-10">
+                    <div class="row">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Select Class Divition</mat-label>
+                            <mat-select [(value)]="divition" >
+                                <mat-option *ngFor="let divition of divitions" [value]="divition" (onSelectionChange)="setDivition(divition)">
+                                    {{divition}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="text-center" style="margin: 25px 25px 25px 25px;">
+                <button class="btn btn-success me2" type="Submit" style="margin-right: 10px;"> Register Classroom </button>
+                <button class="btn btn-secondary" routerLink="/" style="margin-left: 10px;"> Cancel </button>
+            </div>
+            
+            <p style="color: red;">{{validate}}</p>
+            <p></p>
+            <div></div>
+        </form>
+    </div>
+</div>

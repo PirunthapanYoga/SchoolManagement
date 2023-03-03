@@ -1,0 +1,182 @@
+<ul>
+    <div class="container"style="margin-top : 100px margin-left : 100px margin-right : 100px margin-bottom : 100px ">
+       <form>
+           <h4>Allocate Teacher</h4>
+           <mat-form-field appearance="fill">
+             <mat-label>Teachers</mat-label>
+             <mat-select [(ngModel)]="selectedTeacher" name="teacher">
+               <mat-option *ngFor="let teacher of teachers" [value]="teacher.firstName">
+                 {{teacher.firstName}}
+               </mat-option>
+             </mat-select>
+           </mat-form-field>
+
+           <h4>Allocate ClassRoom</h4>
+           <mat-form-field appearance="fill">
+             <mat-label>Class Room</mat-label>
+             <mat-select [(ngModel)]="selectedClassRoom" name="rooms">
+               <mat-option *ngFor="let room of classRooms" [value]="room.name">
+                 {{room.name}}
+               </mat-option>
+             </mat-select>
+           </mat-form-field>
+       </form>  
+    </div>
+</ul>
+
+<div class="container mt-5" style="border:3px solid black; border-radius: 10px;">
+  <div style="text-align: center;">
+      <h1>Student Report</h1>
+      <div class="container"style="margin-top : 100px;">
+          <form>
+              <mat-form-field appearance="fill">
+                <mat-label>Student Name</mat-label>
+                <mat-select [(ngModel)]="selectedStudent" name="student">
+                  <mat-option *ngFor="let student of students" [value]="student.firstName">
+                    {{student.firstName + " " + student.lastName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+          </form>
+          <form>
+              <mat-form-field appearance="fill">
+                <mat-label>Student Name</mat-label>
+                <mat-select [(ngModel)]="selectedStudent" name="student">
+                  <mat-option *ngFor="let student of students" [value]="student.firstName">
+                    {{student.firstName + " " + student.lastName}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+          </form>
+      </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <div class="col-sm">
+    <mat-form-field appearance="fill">
+      <mat-label>Select Student :</mat-label>
+      <mat-select [(ngModel)]="selectedStudent" name="student">
+        <mat-option *ngFor="let student of students" [value]="student.firstName">
+            {{student.firstName + " " + student.lastName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  
+  <div class="col-sm">
+    <mat-form-field appearance="fill">
+      <mat-label>Select Student :</mat-label>
+      <mat-select [(ngModel)]="selectedStudent" name="student">
+        <mat-option *ngFor="let student of students" [value]="student.firstName">
+            {{student.firstName + " " + student.lastName}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+</div>
+
+<div class="form-group">
+  <label for="Student">Name:</label>
+  <mat-form-field appearance="fill">
+    <mat-label>Select Student :</mat-label>
+    <mat-select [(ngModel)]="selectedStudent" name="student">
+      <mat-option *ngFor="let student of students" [value]="student.firstName">
+          {{student.firstName + " " + student.lastName}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+
+
+//draft
+
+<div class="container-fluid" style="margin:  50px 35px 35px 50px;">
+  <div style="text-align: left; ">
+      <h1 style="font-weight: bold;">Student Report</h1>
+  </div>
+</div>
+
+<div class="container-fluid" style="margin:  50px 35px 35px 50px;">
+
+  <div class="row">
+    <div class="col-5">
+      <div class="row">
+
+        <div class="col-2">
+          <label for="Student" style="font-size: medium;">Full Name</label>
+        </div>
+    
+        <div class="col-8">
+          <div class="row">
+            <mat-form-field appearance="fill">
+              <mat-label>Select Student </mat-label>
+              <mat-select [(ngModel)]="selectedStudent" (selectionChange)="getClassroom()">
+                <mat-option *ngFor="let student of students" [value]="student">
+                    {{student.firstName + " " + student.lastName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-1">
+    </div>
+
+    <div class="col-5">
+      <div class="row">
+
+        <div class="col-2">
+          <label for="Student" style="font-size: medium;">ClassRoom </label>
+        </div>
+  
+        <div class="col-8" *ngIf="selectedStudent">
+          <label for="Student" style="font-size: medium;">{{classRoom.name}}</label>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-5">
+      <div class="row">
+
+        <div class="col-2">
+          <label for="Student" style="font-size: medium;">Contact Person</label>
+        </div>
+    
+        <div class="col-2">
+          <label for="Student" style="font-size: medium;">{{selectedStudent.firstName}}</label>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-1">
+    </div>
+
+    <div class="col-5">
+      <div class="row">
+
+        <div class="col-2">
+          <label for="Student" style="font-size: medium;">ClassRoom </label>
+        </div>
+  
+        <div class="col-8" *ngIf="selectedStudent">
+          <label for="Student" style="font-size: medium;">{{classRoom.name}}</label>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+</div>
