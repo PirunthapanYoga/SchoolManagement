@@ -150,13 +150,13 @@
         <div class="row" *ngFor="let subject of teacher.subjects">
           <div class="col" style="border: 1px solid black;">
             <div style="margin:5px 0px 5px 0px">
-              {{teacher.firstName + "  "+ teacher.lastName}}
+              {{subject.name}}
             </div>
           </div>
     
           <div class="col" style="border: 1px solid black;">
             <div style="margin: 5px 0px 5px 0px;">
-              {{subject.name}}
+              {{teacher.firstName + "  "+ teacher.lastName}}
             </div>
           </div>
         </div>

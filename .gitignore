@@ -483,3 +483,6 @@ $RECYCLE.BIN/
 # SSL
 *.crt
 *.key
+
+#angular Cache
+.angular/

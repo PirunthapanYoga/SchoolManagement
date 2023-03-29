@@ -7,6 +7,7 @@ import { subject, teacher } from '../_models/entityModels';
   templateUrl: './allocate-subject.component.html',
   styleUrls: ['./allocate-subject.component.css']
 })
+
 export class AllocateSubjectComponent implements OnInit{
   baseurl = "https://localhost:7217/api/"
   teachers : teacher[] | any ={}
@@ -70,11 +71,7 @@ export class AllocateSubjectComponent implements OnInit{
     })
 
     if(this.valid){
-      
-      this.selectedTeacher.subjects=[];
-      this.selectedTeacher.subjects.push(this.selectedSubject);   
-      this.allocateSubject(this.selectedTeacher)
-      
+      this.allocateSubject(this.selectedSubject.id);
     }else{
       this.message="Already Allocated";
       this.valid=true
@@ -82,29 +79,24 @@ export class AllocateSubjectComponent implements OnInit{
     return;
   }
 
-  allocateSubject(teacher: teacher){
+  allocateSubject(subjectId : Number ){
 
-    return this.http.put<teacher>(this.baseurl + 'Teacher/updateSubject/' , teacher).subscribe({
-      next : response => {
-          
-      },
+    this.http.put(this.baseurl + 'Teacher/updateSubject/' + this.selectedTeacher.teacherId + '/' + subjectId , null).subscribe({
       complete : () => {
         this.message=""
         this.getTeacher()
       }
-      
     }
     );
     
   }
 
   deleteSubjects(subjectId : number){
-    //Repository Is not Updating the delete action due to singelton approach of DbContext Usage. So I skipped to implement the method here
-    //API Teacher Controller Delete action works well untill .remove section
-    //Thrown error is unique constrains of classroomID and TeacherId when update directly with Teacher enitity . 
-    //Without unique contrains there is nothing to change.......
-    //due to time constrain i am wrapping up from this section
+
+    this.http.delete(this.baseurl + "Teacher/deleteSubject/" + this.selectedTeacher.teacherId + '/' + subjectId ).subscribe({
+      next : () => {
+        this.getTeacher();
+      }
+    })
   }
-
-
 }

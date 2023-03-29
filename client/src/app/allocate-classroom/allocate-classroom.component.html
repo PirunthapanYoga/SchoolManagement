@@ -17,7 +17,7 @@
                 <div class="col-6">
                     <div class="row" style="margin-top: 10px;">
                         <mat-form-field appearance="fill">
-                            <mat-label>Select Student </mat-label>
+                            <mat-label>Select Teacher </mat-label>
                             <mat-select [(value)]="selectedTeacher">
                                 <mat-option *ngFor="let teacher of teachers" [value]="teacher"
                                     (onSelectionChange)="setTeacher(teacher)">
@@ -107,7 +107,7 @@
                         </div>
 
                         <div class="col-3" style="text-align: center;">
-                            <div class="btn me-2" style="background-color:dimgrey; margin:5px 0px 5px 0px" (click)="deleteClassroom(rooms.classRoomId)">Deallocate
+                            <div class="btn me-2" style="background-color:dimgrey; margin:5px 0px 5px 0px" (click)="deleteClassRoom(rooms.classRoomId)">Deallocate
                             </div>
                         </div>
 

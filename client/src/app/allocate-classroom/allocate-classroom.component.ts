@@ -70,9 +70,7 @@ export class AllocateClassroomComponent implements OnInit {
 
     if(this.valid){
       
-      this.selectedTeacher.classRooms=[];
-      this.selectedTeacher.classRooms.push(this.selectedClassRoom);  
-      this.allocateClassroom(this.selectedTeacher)
+      this.allocateClassroom(this.selectedClassRoom.classRoomId);
       
     }else{
       this.message="Already Allocated";
@@ -81,27 +79,23 @@ export class AllocateClassroomComponent implements OnInit {
     return;
   }
 
-  allocateClassroom(teacher: teacher){
+  allocateClassroom(classRoomId: number){
 
-    return this.http.put<teacher>(this.baseurl + 'Teacher/updateClassRoom/' , teacher).subscribe({
-      next : response => {
-        console.log(response)
-      },
+    return this.http.put(this.baseurl + 'Teacher/updateClassRoom/' + this.selectedTeacher.teacherId + '/' + classRoomId ,null).subscribe({
       complete : () => {
         this.message=""
         this.getTeacher()
       }
     }
-    );
-    
+    );   
   }
 
-  deleteClassroom(classRoomId : number){
-    //Repository Is not Updating the delete action due to singelton approach of DbContext Usage. So I skipped to implement the method here
-    //API Teacher Controller Delete action works well untill .remove section
-    //Thrown error is unique constrains of classroomID and TeacherId when update directly with Teacher enitity . 
-    //Without unique contrains there is nothing to change.......
-    //due to time constrain i am wrapping up from this section
+  deleteClassRoom(classRoomId : number){
+    this.http.delete(this.baseurl + "Teacher/deleteClassRoom/" + this.selectedTeacher.teacherId + '/' + classRoomId ).subscribe({
+      complete : () => {
+        this.getTeacher();  
+      }
+    })
   }
 
 }

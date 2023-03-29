@@ -6,8 +6,6 @@ using API.Entities;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using SQLitePCL;
 
 namespace API.Controllers
 {
@@ -80,21 +78,23 @@ namespace API.Controllers
             return Ok(teacherToReturn);
         }
 
-        [HttpPut("updateSubject")]
-        public async Task<IActionResult> UpdateTeacherSubject([FromBody] Teacher teacher)
+        [HttpPut("updateSubject/{teacherId}/{subjectId}")]
+        public async Task<IActionResult> UpdateTeacherSubject(int subjectId , int teacherId)
         {
             try
             {
+                var result = await _context
+                            .Teachers
+                            .Include(t=>t.Subjects)
+                            .Include(t=>t.ClassRooms)
+                            .FirstOrDefaultAsync(t => t.TeacherId == teacherId);
+                
+                var subjectToAdd = await _context
+                                .Subjects
+                                .Include(t=>t.Teachers)
+                                .FirstOrDefaultAsync(t=> t.ID == subjectId);
 
-                var jsonSerializerOptions = new JsonSerializerOptions
-                {
-                    ReferenceHandler = ReferenceHandler.Preserve
-                };
-
-                var jsonData = JsonSerializer.Serialize(teacher, jsonSerializerOptions);
-
-                Teacher result = await _context.Teachers.FirstOrDefaultAsync(t => t.TeacherId == teacher.TeacherId);
-                result.Subjects = teacher.Subjects;
+                result.Subjects.Add(subjectToAdd);
 
                 await _context.SaveChangesAsync();
 
@@ -109,20 +109,23 @@ namespace API.Controllers
 
         }
 
-        [HttpPut("updateClassroom")]
-        public async Task<IActionResult> UpdateTeacherClassroom([FromBody] Teacher teacher)
+        [HttpPut("updateClassroom/{teacherId}/{classRoomId}")]
+        public async Task<IActionResult> UpdateTeacherClassroom(int ClassRoomId ,int TeacherId)
         {
             try
             {
-                var jsonSerializerOptions = new JsonSerializerOptions
-                {
-                    ReferenceHandler = ReferenceHandler.Preserve
-                };
+                var teacher = await _context
+                            .Teachers
+                            .Include(t=>t.ClassRooms)
+                            .Include(t=>t.Subjects)
+                            .FirstOrDefaultAsync(t => t.TeacherId == TeacherId);
+                
+                var ClassRoomToAdd = await _context
+                                    .ClassRooms
+                                    .Include(t=>t.Teachers)
+                                    .FirstOrDefaultAsync(t=> t.ClassRoomId == ClassRoomId);
 
-                var jsonData = JsonSerializer.Serialize(teacher, jsonSerializerOptions);
-
-                Teacher result = await _context.Teachers.FirstOrDefaultAsync(t => t.TeacherId == teacher.TeacherId);
-                result.ClassRooms = teacher.ClassRooms;
+                teacher.ClassRooms.Add(ClassRoomToAdd);
 
                 await _context.SaveChangesAsync();
 
@@ -137,49 +140,45 @@ namespace API.Controllers
 
         }
 
-        [HttpDelete("deleteSubject/{subjectId}")]
-        public async Task<IActionResult> DeleteSubject(int subjectId, [FromBody] Teacher teacher)
+        [HttpDelete("deleteClassroom/{teacherId}/{classRoomId}")]
+        public async Task<IActionResult> DeleteClassroom(int ClassRoomId,int teacherId)
         {
             try
             {
                 var result = await _context.Teachers
-                .FirstOrDefaultAsync(t => t.TeacherId == teacher.TeacherId);
+                .Include(t=>t.Subjects)
+                .Include(t=>t.ClassRooms)
+                .FirstOrDefaultAsync(t => t.TeacherId == teacherId);
 
-                var subject = teacher.Subjects.FirstOrDefault(s => s.ID == subjectId);
-
-                result.Subjects = teacher.Subjects;
-                result.Subjects.Remove(subject);
-
+                result.ClassRooms.RemoveAll(x => x.ClassRoomId == ClassRoomId);
+            
                 await _context.SaveChangesAsync();
 
                 return NoContent();
-
-
-            }catch(Exception)
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
         }
 
-        [HttpDelete("deleteClassroom/{classroomId}")]
-        public async Task<IActionResult> DeleteClassroom(int classroomId, [FromBody] Teacher teacher)
+        [HttpDelete("deleteSubject/{teacherId}/{subjectId}")]
+        public async Task<IActionResult> DeleteSubject(int subjectId, int teacherId)
         {
             try
             {
                 var result = await _context.Teachers
-                .FirstOrDefaultAsync(t => t.TeacherId == teacher.TeacherId);
+                .Include(t=>t.Subjects)
+                .Include(t=>t.ClassRooms)
+                .FirstOrDefaultAsync(t => t.TeacherId == teacherId);
 
-                var subject = teacher.ClassRooms.FirstOrDefault(s => s.ClassRoomId == classroomId);
-
-                result.ClassRooms = teacher.ClassRooms;
-                result.ClassRooms.Remove(subject);
-
+                result.Subjects.RemoveAll(x => x.ID == subjectId);
+            
                 await _context.SaveChangesAsync();
 
                 return NoContent();
-
-
-            }catch(Exception)
+            }
+            catch (Exception)
             {
                 return BadRequest();
             }
